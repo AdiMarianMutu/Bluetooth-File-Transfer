@@ -50,12 +50,13 @@ namespace EasyBluetoothFileTransfer {
                             }
                         }
 
-                        // We create our request using a Uri string which contains the receiving device address and the local file path
-                        ObexWebRequest obexWebRequest = new ObexWebRequest((new Uri(String.Format("obex://{0}/{1}", device.DeviceAddress, filePath))));
-                        // Reads the entire file into memory (if you have a file bigger than 1.5 GB you will get an Out Of Memory exception)
-                                       obexWebRequest.ReadFile(filePath);
-
                         try {
+                            // We create our request using a Uri string which contains the receiving device address and the local file path
+                            ObexWebRequest obexWebRequest = new ObexWebRequest((new Uri(String.Format("obex://{0}/{1}", device.DeviceAddress, filePath))));
+                            // Reads the entire file into memory (if you have a file bigger than 1.5 GB you will get an Out Of Memory exception)
+                            obexWebRequest.ReadFile(filePath);
+
+
                             // When the file was read, we make the request and the receiving device will send back a response
                             ObexWebResponse obexWebResponse = (ObexWebResponse)obexWebRequest.GetResponse();
                                             obexWebResponse.Close();
