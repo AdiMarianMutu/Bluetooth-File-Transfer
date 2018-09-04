@@ -7,7 +7,7 @@ The project is pretty basic, you can select a single file, scan for the availabl
 
 A screenshot of the compiled tool in action
 
-![Alt Text](https://i.imgur.com/6YrGJcJ.png)
+![Alt Text](https://i.imgur.com/lH86Md4.png)
 
 ##### All rights reserved to the authors of the [32feet.NET](https://github.com/inthehand/32feet) library!
 ##### Icon downloaded from [flaticon.com](https://www.flaticon.com/free-icon/bluetooth_295680#term=bluetooth&page=1&position=26)
