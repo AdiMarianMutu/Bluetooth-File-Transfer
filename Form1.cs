@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.IO;
@@ -29,12 +29,20 @@ namespace EasyBluetoothFileTransfer {
             public static bool AbortOperation = false;
 
             /// <summary>
+            /// Used just to be able to access the GUI Thread
+            /// </summary>
+            public Form1 Frm;
+
+            public _Bluetooth(Form1 frm) {
+                this.Frm = frm;
+            }
+
+            /// <summary>
             /// Sends a file to the selected device
             /// </summary>
             /// <param name="filePath">The full local file path</param>
             /// <param name="receiverName">The name of the receiving device</param>
-            /// <param name="_frm">Used only for the 'Send/Cancel' button</param>
-            public static void SendFile(string filePath, string receiverName, Form1 _frm) {
+            public void SendFile(string filePath, string receiverName) {
                 // We enumerate all the devices in the list
                 foreach (var device in DevicesInfo[0]) {
                     // If the selected device from the list has the same name as the current device being scanned, we have found the right device
@@ -83,7 +91,7 @@ namespace EasyBluetoothFileTransfer {
 
                 // Used only to reset the text for the 'Send File' button
                 resetSendFileButton:
-                    _frm.sendCancelFile_btn.Invoke((MethodInvoker)delegate { _frm.sendCancelFile_btn.Text = "Send File"; });
+                    Frm.sendCancelFile_btn.Invoke((MethodInvoker)delegate { Frm.sendCancelFile_btn.Text = "Send File"; });
             }
         }
 
@@ -172,7 +180,7 @@ namespace EasyBluetoothFileTransfer {
                     string receiverName     = devicesAvailable_listview.SelectedItems[0].Text;
                     sendCancelFile_btn.Text = "Cancel";
 
-                    _Bluetooth.SendFile_Thread = new Thread(() => _Bluetooth.SendFile(fullFilePath, receiverName, this));
+                    _Bluetooth.SendFile_Thread = new Thread(() => (new _Bluetooth(this)).SendFile(fullFilePath, receiverName));
                     _Bluetooth.SendFile_Thread.Start();
 
                 break;
@@ -180,7 +188,7 @@ namespace EasyBluetoothFileTransfer {
                 case "Cancel":
                     if (MessageBox.Show("Are you sure?", "Abort the operation", MessageBoxButtons.YesNo, MessageBoxIcon.None, MessageBoxDefaultButton.Button2) == DialogResult.Yes) {
                         _Bluetooth.AbortOperation = true;
-                        _Bluetooth.SendFile_Thread.Abort("testing");
+                        _Bluetooth.SendFile_Thread.Abort();
 
                         sendCancelFile_btn.Text = "Send File";
                     }
